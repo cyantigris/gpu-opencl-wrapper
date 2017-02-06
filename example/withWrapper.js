@@ -1,21 +1,14 @@
-const CLWrapper = require('../src/OpenCLWrapper/OpenCLWrapper'),
+const fs = require('fs'), 
+    CLWrapper = require('../src/OpenCLWrapper/OpenCLWrapper'),
     _inputData_init = require('./_inputData_init'),
     _printResults = require('./_printResults');
 
 const clWrapper = new CLWrapper(true),
     cl = clWrapper.cl;
 
-
 const BUFFER_SIZE=10;
 
-let sourceCode = [
-    "__kernel void vadd(__global int *a, __global int *b, __global int *c, uint iNumElements) ",
-    "{                                                                           ",
-    "    size_t i =  get_global_id(0);                                           ",
-    "    if(i >= iNumElements) return;                                           ",
-    "    c[i] = a[i] + b[i];                                                     ",
-    "}                                                                           "
-].join("\n");
+let sourceCode = fs.readFileSync('./sourceCode.opencl','utf-8');
 
 let buffer_init =function(){
     let size = BUFFER_SIZE * Uint32Array.BYTES_PER_ELEMENT; // size in bytes
@@ -50,7 +43,7 @@ let init = function(){
             {type:'uint',data:BUFFER_SIZE}
         ]
     );
-    
+
     // run cl program
     cl.enqueueNDRangeKernel(
         clWrapper._commandQueue, 
