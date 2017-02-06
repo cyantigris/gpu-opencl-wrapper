@@ -19,7 +19,6 @@ let sourceCode = [
 
 let buffer_init =function(){
     let size = BUFFER_SIZE * Uint32Array.BYTES_PER_ELEMENT; // size in bytes
-
     // Create buffer for A and B and copy host contents
     let aBuffer = cl.createBuffer(clWrapper._context, cl.MEM_READ_ONLY, size),
         bBuffer = cl.createBuffer(clWrapper._context, cl.MEM_READ_ONLY, size);
