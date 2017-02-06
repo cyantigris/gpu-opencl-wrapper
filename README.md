@@ -9,12 +9,12 @@
  5.create program<br>
  6.build program<br>
  7.create kernel program<br>
- 8. create command queue<br>
- 9. create buffer data<br>
- 10.enqueue buffer data<br>
- 11.set kernel arguments<br>
- 12.enqueueKernel ( run openCL !!)<br>
- 13.readResult (optional)<br>
+ 8.create command queue<br>
+ 9.create buffer data<br>
+10.enqueue buffer data<br>
+11.set kernel arguments<br>
+12.enqueueKernel ( run openCL !!)<br>
+13.readResult (optional)<br>
 
 ## use openCL with wrapper ( 7 steps )
 1.create wrapper instance<br>
