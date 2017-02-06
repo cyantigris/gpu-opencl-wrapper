@@ -4,28 +4,23 @@ const fs = require('fs'),
     _printResults = require('./_printResults');
 
 const clWrapper = new CLWrapper(true),
-    cl = clWrapper.cl;
-
-const BUFFER_SIZE=10;
+    cl = clWrapper.cl,
+    BUFFER_SIZE=10;
 
 let sourceCode = fs.readFileSync('./sourceCode.opencl','utf-8');
 
 let buffer_init =function(){
-    let size = BUFFER_SIZE * Uint32Array.BYTES_PER_ELEMENT; // size in bytes
-    // Create buffer for A and B and copy host contents
-    let aBuffer = cl.createBuffer(clWrapper._context, cl.MEM_READ_ONLY, size),
-        bBuffer = cl.createBuffer(clWrapper._context, cl.MEM_READ_ONLY, size);
-
-    // Create buffer for C to read results
-    let cBuffer = cl.createBuffer(clWrapper._context, cl.MEM_WRITE_ONLY, size);
+    let size = BUFFER_SIZE * Uint32Array.BYTES_PER_ELEMENT, // size in bytes
+        aBuffer = cl.createBuffer(clWrapper._context, cl.MEM_READ_ONLY, size),
+        bBuffer = cl.createBuffer(clWrapper._context, cl.MEM_READ_ONLY, size),
+        cBuffer = cl.createBuffer(clWrapper._context, cl.MEM_WRITE_ONLY, size);
     return [aBuffer,bBuffer,cBuffer];
 };
 
 let init = function(){
-    let kernel = clWrapper.init(sourceCode,'vadd'),
-        inputData = _inputData_init(BUFFER_SIZE),
-        bufferList = buffer_init(), //create GPU buffer object
-        C = new Uint32Array(BUFFER_SIZE);
+    let kernel = clWrapper.init(sourceCode,'vadd'),     //kernel init
+        inputData = _inputData_init(BUFFER_SIZE),       //init input data
+        bufferList = buffer_init();                     //create GPU buffer object
 
     //allocate GPU memeryBuffer
     for(let i=0;i< inputData.length;i++)
@@ -44,7 +39,7 @@ let init = function(){
         ]
     );
 
-    // run cl program
+    // run openCL
     cl.enqueueNDRangeKernel(
         clWrapper._commandQueue, 
         kernel, 
@@ -55,15 +50,10 @@ let init = function(){
     );
 
     // get results and block while getting them
-    cl.enqueueReadBuffer (clWrapper._commandQueue, bufferList[2], true, 0, C.length*Uint32Array.BYTES_PER_ELEMENT, C);
-
-    // print results
-    _printResults(inputData[0],inputData[1],C,BUFFER_SIZE);
-
+    cl.enqueueReadBuffer (clWrapper._commandQueue, bufferList[2], true, 0, inputData[2].length*Uint32Array.BYTES_PER_ELEMENT, inputData[2]);
+    
+    _printResults(inputData,BUFFER_SIZE);
     clWrapper.releaseAll();
 };
 
 init();
-
-
-

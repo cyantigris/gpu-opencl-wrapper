@@ -1,16 +1,16 @@
-module.exports = function(A,B,C,BUFFER_SIZE){
+module.exports = function(data,BUFFER_SIZE){
    // Print input vectors and result vector
   var output = "\nA = ";
   for (var i = 0; i < BUFFER_SIZE; i++) {
-    output += A[i] + ", ";
+    output += data[0][i] + ", ";
   }
   output += "\nB = ";
   for (var i = 0; i < BUFFER_SIZE; i++) {
-    output += B[i] + ", ";
+    output += data[1][i] + ", ";
   }
   output += "\nC = ";
   for (var i = 0; i < BUFFER_SIZE; i++) {
-    output += C[i] + ", ";
+    output += data[2][i] + ", ";
   }
   console.info(output);
 }
