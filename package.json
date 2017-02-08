@@ -8,7 +8,7 @@
   },
   "author": "Jeff Yongtao Tang",
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "node-opencl": "^0.4.5"
   }
 }
