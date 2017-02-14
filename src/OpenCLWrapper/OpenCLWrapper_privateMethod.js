@@ -55,7 +55,7 @@ module.exports = class OpenCLWrapper_privateMethod{
     _addProgram(sourceCode,kernelName){
         this._programList.push(this.cl.createProgramWithSource(this._context, sourceCode));
         this.cl.buildProgram(this._programList[this._programList.length-1]);
-        this._addKernel(this._programList[this._programList.length-1],kernelName);
+        return this._addKernel(this._programList[this._programList.length-1],kernelName);
     }
 
     _addKernel(program,kernelName){
