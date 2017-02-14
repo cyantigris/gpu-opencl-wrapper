@@ -27,4 +27,8 @@ module.exports = class OpenCLWrapper extends OpenCLWrapper_privateMethod{
     releaseAll(){
         this.cl.releaseAll()
     }
+    
+    addProgram(sourceCode,kernelName){
+       return this._addProgram(sourceCode,kernelName); 
+    }
 };
