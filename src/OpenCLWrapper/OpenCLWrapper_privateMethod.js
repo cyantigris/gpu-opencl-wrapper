@@ -61,6 +61,7 @@ module.exports = class OpenCLWrapper_privateMethod{
     _addKernel(program,kernelName){
         try {
             this._kernelList.push(this.cl.createKernel(program, kernelName));
+            return this._kernelList[this._kernelList.length-1];
         }
         catch(err) {
             debug.error(this.cl.getProgramBuildInfo(program, this._device, this.cl.PROGRAM_BUILD_LOG));
